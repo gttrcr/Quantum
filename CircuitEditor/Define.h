@@ -5,8 +5,9 @@
 #define _Matrix Matrix<_Complex>
 
 #define MAX_BIT_SIZE 256
-#define THREADS_NUMBER 256
+#define THREADS_NUMBER 128
 #define USE_THREADS 1
+#define CIRCUIT_LOGS true
 
 #define IMatrix _Matrix(2, 2, {1, 0, 0, 1})
 #define XMatrix _Matrix(2, 2, {0, 1, 1, 0})

@@ -1,8 +1,9 @@
 #pragma warning(disable:4996)
 
-#include"Qbit.h"
-#include"Qpc.h"
-#include "GnuGraph.h"
+#include"QbitWrapper.h"
+//#include"GnuGraph.h"
+#include<chrono>
+#include <string>
 
 //inline void pressEnter(void)
 //{
@@ -122,23 +123,50 @@
 //	return 0;
 //}
 
-
-Qbit* q;
-void start(unsigned int reg)
+std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
+void StartLog()
 {
-	q = new Qbit[reg];
+	std::cout << "CircuitEditor started" << std::endl;
+	std::cout << "MAX_BIT_SIZE: " << std::to_string(MAX_BIT_SIZE) << std::endl;
+	std::cout << "THREADS_NUMBER: " << std::to_string(THREADS_NUMBER) << std::endl;
+	std::cout << "USING_THREAD: " << std::to_string(USE_THREADS) << std::endl;
+	std::cout << "CIRCUIT_LOGS: " << (CIRCUIT_LOGS ? "true" : "false") << std::endl;
+}
+
+void EndLog()
+{
+	long long mills = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count();
+	std::cout << "The circuit has been created in " << mills << "ms" << std::endl;
+}
+
+Circuit* c;
+void InitQuantumRegister(unsigned int reg)
+{
+	std::cout << "Creating circuit of " << reg << " quantum registers...";
+	c = new Circuit(reg);
+	std::cout << "Done" << std::endl;
 }
 
 int main()
 {
-	//Allocate 5 qbit
-	start(4);
+	StartLog();
+	InitQuantumRegister(6);
 
 	//Algorithm - the only editable part
 	{
-		q[0].CX(q[1]);
-		systemMatrix->print();
+		CX(c, 0, 1);
+		H(c, 3);
+		X(c, 4);
+		Z(c, 5);
+		CX(c, 2, 3);
+		CX(c, 3, 2);
+		CX(c, 2, 3);
+		Swap(c, 2, 3);
+
+		Optimize(c);
 	}
+
+	EndLog();
 
 	//Stop
 	char a;

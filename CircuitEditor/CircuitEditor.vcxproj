@@ -150,12 +150,15 @@
     <ClCompile Include="CircuitEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Topology.h" />
     <ClInclude Include="Complex.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="GnuGraph.h" />
     <ClInclude Include="GnuGraphFormatter.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Optimizer.h" />
     <ClInclude Include="Qbit.h" />
+    <ClInclude Include="QbitWrapper.h" />
     <ClInclude Include="Qpc.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
