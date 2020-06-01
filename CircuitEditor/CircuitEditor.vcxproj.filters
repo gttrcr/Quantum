@@ -50,5 +50,8 @@
     <ClInclude Include="Topology.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

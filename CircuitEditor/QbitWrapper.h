@@ -16,7 +16,11 @@ public:
 	}
 };
 
-//Circuit* circuit = new Circuit;
+void Matrix(Circuit* c)
+{
+	systemMatrix->Print();
+}
+
 void I(Circuit* c, unsigned int a)
 {
 	if (CIRCUIT_LOGS)
@@ -139,5 +143,11 @@ void Swap(Circuit* c, unsigned int a, unsigned int b)
 
 void Optimize(Circuit* c)
 {
+	if (CIRCUIT_LOGS)
+		std::cout << "Start optimization...";
+
 	c->t->Optimize();
+
+	if (CIRCUIT_LOGS)
+		std::cout << "Done" << std::endl;
 }

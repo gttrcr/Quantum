@@ -85,6 +85,7 @@ public:
 		return result;
 	}
 
+	//Thread of dot product
 	inline static void DotProductThread(Matrix<T>& res, const int threadNumber, Matrix<T>& _this, Matrix<T>& matrix)
 	{
 		unsigned int nElements = res._cols * res._rows;
@@ -108,26 +109,6 @@ public:
 			for (unsigned int r = 0; r < res._rows; ++r)
 				res._set(row, col, res._get(row, col) + _this._get(row, r) * matrix._get(r, col));
 		}
-	}
-
-	inline static void KroneckerProductThread(Matrix<T>& res, const int threadNumber, Matrix<T>& _this, Matrix<T>& matrix)
-	{
-		for (unsigned int r = 0; r < _this._rows; r++)
-			for (unsigned int c = 0; c < _this._cols; c++)
-				if ((r * res._cols + c) % THREADS_NUMBER == threadNumber)
-					res._insertMatrix(r * matrix._rows, c * matrix._cols, matrix.operator*(_this._get(r, c)));
-	}
-
-	inline void print(std::string str = "")
-	{
-		std::cout << str << std::endl;
-		for (unsigned int r = 0; r < _rows; r++)
-		{
-			for (unsigned int c = 0; c < _cols; c++)
-				std::cout << _get(r, c) << " ";
-			std::cout << std::endl;
-		}
-		std::cout << "----------" << std::endl;
 	}
 
 	//Matrix dot product
@@ -159,6 +140,15 @@ public:
 #endif
 	}
 
+	//Thread of Matrix Kronecker product
+	inline static void KroneckerProductThread(Matrix<T>& res, const int threadNumber, Matrix<T>& _this, Matrix<T>& matrix)
+	{
+		for (unsigned int r = 0; r < _this._rows; r++)
+			for (unsigned int c = 0; c < _this._cols; c++)
+				if ((r * res._cols + c) % THREADS_NUMBER == threadNumber)
+					res._insertMatrix(r * matrix._rows, c * matrix._cols, matrix.operator*(_this._get(r, c)));
+	}
+
 	//Matrix Kronecker product
 	inline Matrix<T>* KroneckerProduct(Matrix<T>* matrix)
 	{
@@ -182,6 +172,18 @@ public:
 
 		return res;
 #endif
+	}
+
+	inline void Print(std::string str = "")
+	{
+		std::cout << str << std::endl;
+		for (unsigned int r = 0; r < _rows; r++)
+		{
+			for (unsigned int c = 0; c < _cols; c++)
+				std::cout << _get(r, c) << " ";
+			std::cout << std::endl;
+		}
+		std::cout << "----------" << std::endl;
 	}
 
 private:

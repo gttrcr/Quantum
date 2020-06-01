@@ -139,21 +139,22 @@ void EndLog()
 	std::cout << "The circuit has been created in " << mills << "ms" << std::endl;
 }
 
-Circuit* c;
-void InitQuantumRegister(unsigned int reg)
+Circuit* InitQuantumRegister(unsigned int reg)
 {
 	std::cout << "Creating circuit of " << reg << " quantum registers...";
-	c = new Circuit(reg);
+	Circuit* c = new Circuit(reg);
 	std::cout << "Done" << std::endl;
+
+	return c;
 }
 
 int main()
 {
 	StartLog();
-	InitQuantumRegister(6);
 
 	//Algorithm - the only editable part
 	{
+		Circuit* c = InitQuantumRegister(6);
 		CX(c, 0, 1);
 		H(c, 3);
 		X(c, 4);
