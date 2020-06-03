@@ -155,4 +155,5 @@ void Optimize(Circuit* c)
 void Print(Circuit* c)
 {
 	systemMatrix->Print();
+	std::cout << "Determinant is: " << systemMatrix->Det() << std::endl;
 }

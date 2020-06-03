@@ -154,15 +154,15 @@ int main()
 
 	//Algorithm - the only editable part
 	{
-		Circuit* c = InitQuantumRegister(6);
+		Circuit* c = InitQuantumRegister(3);
 		CX(c, 0, 1);
-		H(c, 3);
-		X(c, 4);
-		Z(c, 5);
-		CX(c, 2, 3);
-		CX(c, 3, 2);
-		CX(c, 2, 3);
-		Swap(c, 2, 3);
+		H(c, 2);
+		X(c, 1);
+		Z(c, 1);
+		CX(c, 0, 1);
+		CX(c, 1, 2);
+		CX(c, 0, 2);
+		Swap(c, 1, 2);
 
 		Print(c);
 		Optimize(c);

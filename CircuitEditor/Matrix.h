@@ -190,36 +190,9 @@ public:
 		std::cout << "----------" << std::endl;
 	}
 
-	T det = {};
-	inline T Det(Matrix<T>* arg = nullptr)
+	inline T Det()
 	{
-		Matrix<T>* matrix;
-		if (arg != nullptr)
-			matrix = arg;
-		else
-			matrix = this;
-
-		if (matrix->_rows == matrix->_cols)
-		{
-			if (matrix->_rows == 2)
-				return matrix->_get(0, 0) * matrix->_get(1, 1) - matrix->_get(0, 1) * matrix->_get(1, 0);
-
-			Matrix<T>* subm = new Matrix<T>(matrix->_rows - 1, matrix->_cols - 1);
-			for (unsigned int i = 0; i < matrix->_rows; i++)
-			{
-				T val = matrix->_get(i, 0);
-				for (unsigned int r = 0; r < matrix->_rows; r++)
-					for (unsigned int c = 1; c < matrix->_cols; c++)
-						if (r != i)
-							subm->_set(r - 1, c - 1, matrix->_get(r, c));
-
-				det += val * Det(subm);
-			}
-
-			return det;
-		}
-
-		return {};
+		return Det(this);
 	}
 
 private:
@@ -227,7 +200,7 @@ private:
 	unsigned int _rows;
 	unsigned int _cols;
 
-	void _insertMatrix(unsigned int rPos, unsigned int cPos, Matrix<T>* matrix)
+	inline void _insertMatrix(unsigned int rPos, unsigned int cPos, Matrix<T>* matrix)
 	{
 		unsigned int maxR = matrix->_rows;
 		unsigned int maxC = matrix->_cols;
@@ -236,14 +209,49 @@ private:
 				_set(rPos + r, cPos + c, matrix->_get(r, c));
 	}
 
-	void _set(unsigned int r, unsigned int c, T el)
+	inline void _set(unsigned int r, unsigned int c, T el)
 	{
 		_matrix[r * _rows + c] = el;
 	}
 
-	T _get(unsigned int r, unsigned int c)
+	inline T _get(unsigned int r, unsigned int c)
 	{
 		return _matrix[r * _rows + c];
+	}
+
+	inline T Det(Matrix<T>* matrix)
+	{
+		T det = {};
+		unsigned int n = matrix->_rows;
+		Matrix<T>* submatrix = new Matrix<T>(matrix->_rows - 1, matrix->_cols - 1);
+
+		if (n == 2)
+			return matrix->_get(0, 0) * matrix->_get(1, 1) - matrix->_get(1, 0) * matrix->_get(0, 1);
+		else
+		{
+			for (unsigned int x = 0; x < n; x++)
+			{
+				unsigned int subi = 0;
+				for (unsigned int i = 1; i < n; i++)
+				{
+					unsigned int subj = 0;
+					for (unsigned int j = 0; j < n; j++)
+					{
+						if (j == x)
+							continue;
+						submatrix->_set(subi, subj, matrix->_get(i, j));
+						subj++;
+					}
+					subi++;
+				}
+
+				if (pow(-1, x) == -1)
+					det = det + (-matrix->_get(0, x) * Det(submatrix));
+				else
+					det = det + (matrix->_get(0, x) * Det(submatrix));
+			}
+		}
+		return det;
 	}
 };
 
