@@ -15,8 +15,12 @@ public:
 	{
 		_rows = rows;
 		_cols = cols;
-		
-		_matrix = (T*)malloc(_rows * _cols * sizeof(T));
+
+		_matrix = (T*)malloc((size_t)_rows * (size_t)_cols * sizeof(T));
+
+		for (rows = 0; rows < _rows; rows++)
+			for (cols = 0; cols < _cols; cols++)
+				_set(rows, cols, {});
 	}
 
 	//Constructor
@@ -25,7 +29,7 @@ public:
 		_rows = rows;
 		_cols = cols;
 		
-		_matrix = (T*)malloc(_rows * _cols * sizeof(T));
+		_matrix = (T*)malloc((size_t)_rows * (size_t)_cols * sizeof(T));
 
 		for (rows = 0; rows < _rows; rows++)
 			for (cols = 0; cols < _cols; cols++)
@@ -38,7 +42,7 @@ public:
 		_rows = rows;
 		_cols = cols;
 		
-		_matrix = (T*)malloc(_rows * _cols * sizeof(T));
+		_matrix = (T*)malloc((size_t)_rows * (size_t)_cols * sizeof(T));
 
 		for (rows = 0; rows < _rows; rows++)
 			for (cols = 0; cols < _cols; cols++)
@@ -47,7 +51,7 @@ public:
 
 	~Matrix<T>()
 	{
-		delete[] _matrix;
+		free(_matrix);
 	}
 
 	inline Matrix<T>* operator+(const Matrix<T>& matrix)
@@ -184,6 +188,38 @@ public:
 			std::cout << std::endl;
 		}
 		std::cout << "----------" << std::endl;
+	}
+
+	T det = {};
+	inline T Det(Matrix<T>* arg = nullptr)
+	{
+		Matrix<T>* matrix;
+		if (arg != nullptr)
+			matrix = arg;
+		else
+			matrix = this;
+
+		if (matrix->_rows == matrix->_cols)
+		{
+			if (matrix->_rows == 2)
+				return matrix->_get(0, 0) * matrix->_get(1, 1) - matrix->_get(0, 1) * matrix->_get(1, 0);
+
+			Matrix<T>* subm = new Matrix<T>(matrix->_rows - 1, matrix->_cols - 1);
+			for (unsigned int i = 0; i < matrix->_rows; i++)
+			{
+				T val = matrix->_get(i, 0);
+				for (unsigned int r = 0; r < matrix->_rows; r++)
+					for (unsigned int c = 1; c < matrix->_cols; c++)
+						if (r != i)
+							subm->_set(r - 1, c - 1, matrix->_get(r, c));
+
+				det += val * Det(subm);
+			}
+
+			return det;
+		}
+
+		return {};
 	}
 
 private:

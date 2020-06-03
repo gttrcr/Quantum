@@ -164,6 +164,7 @@ int main()
 		CX(c, 2, 3);
 		Swap(c, 2, 3);
 
+		Print(c);
 		Optimize(c);
 	}
 

@@ -151,3 +151,8 @@ void Optimize(Circuit* c)
 	if (CIRCUIT_LOGS)
 		std::cout << "Done" << std::endl;
 }
+
+void Print(Circuit* c)
+{
+	systemMatrix->Print();
+}
