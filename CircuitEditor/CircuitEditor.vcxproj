@@ -156,7 +156,6 @@
     <ClInclude Include="GnuGraph.h" />
     <ClInclude Include="GnuGraphFormatter.h" />
     <ClInclude Include="Matrix.h" />
-    <ClInclude Include="Optimizer.h" />
     <ClInclude Include="Qbit.h" />
     <ClInclude Include="QbitWrapper.h" />
     <ClInclude Include="Utils.h" />

@@ -41,9 +41,6 @@
     <ClInclude Include="QbitWrapper.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="Optimizer.h">
-      <Filter>File di intestazione</Filter>
-    </ClInclude>
     <ClInclude Include="Topology.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>

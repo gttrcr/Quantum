@@ -18,6 +18,6 @@
 #define ZMatrix _Matrix(2, 2, {1, 0, 0, -1})
 #define HMatrix _Matrix(2, 2, {_Type(1/sqrt(2)), _Type(1/sqrt(2)), _Type(1/sqrt(2)), _Type(-1/sqrt(2))})
 
-#define Sigma (_Type)0.0000000000001
+#define Sigma (_Type)1.0e-12
 #define Zero _Complex(0, 0)
 #define One _Complex(1, 0)
