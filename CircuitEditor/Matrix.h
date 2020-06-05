@@ -106,7 +106,8 @@ public:
 			endOp = (nOperations * (threadNumber + 1)) + restOperations;
 		}
 
-		for (unsigned int op = startOp; op < endOp; ++op) {
+		for (unsigned int op = startOp; op < endOp; ++op)
+		{
 			unsigned int row = op % res._cols;
 			unsigned int col = op / res._rows;
 			res._set(row, col, 0);
@@ -195,6 +196,15 @@ public:
 		return Det(this);
 	}
 
+	inline T Trace()
+	{
+		T trace = {};
+		for (unsigned int r = 0; r < _rows; r++)
+			trace += _get(r, r);
+
+		return trace;
+	}
+
 private:
 	T* _matrix;
 	unsigned int _rows;
@@ -223,34 +233,42 @@ private:
 	{
 		T det = {};
 		unsigned int n = matrix->_rows;
-		Matrix<T>* submatrix = new Matrix<T>(matrix->_rows - 1, matrix->_cols - 1);
 
 		if (n == 2)
 			return matrix->_get(0, 0) * matrix->_get(1, 1) - matrix->_get(1, 0) * matrix->_get(0, 1);
 		else
 		{
+			Matrix<T>* submatrix = new Matrix<T>(matrix->_rows - 1, matrix->_cols - 1);
 			for (unsigned int x = 0; x < n; x++)
 			{
-				unsigned int subi = 0;
-				for (unsigned int i = 1; i < n; i++)
+				if (-matrix->_get(0, x) != Zero)
 				{
-					unsigned int subj = 0;
-					for (unsigned int j = 0; j < n; j++)
+					unsigned int subi = 0;
+					for (unsigned int i = 1; i < n; i++)
 					{
-						if (j == x)
-							continue;
-						submatrix->_set(subi, subj, matrix->_get(i, j));
-						subj++;
+						unsigned int subj = 0;
+						for (unsigned int j = 0; j < n; j++)
+						{
+							if (j == x)
+								continue;
+							submatrix->_set(subi, subj, matrix->_get(i, j));
+							subj++;
+						}
+						subi++;
 					}
-					subi++;
-				}
 
-				if (pow(-1, x) == -1)
-					det = det + (-matrix->_get(0, x) * Det(submatrix));
-				else
-					det = det + (matrix->_get(0, x) * Det(submatrix));
+					//if (-matrix->_get(0, x) != Zero)
+					//{
+					if (pow(-1, x) == -1)
+						det -= (matrix->_get(0, x) * Det(submatrix));
+					else
+						det += (matrix->_get(0, x) * Det(submatrix));
+				}
 			}
+
+			submatrix->~Matrix();
 		}
+
 		return det;
 	}
 };

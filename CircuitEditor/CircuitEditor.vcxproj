@@ -159,7 +159,6 @@
     <ClInclude Include="Optimizer.h" />
     <ClInclude Include="Qbit.h" />
     <ClInclude Include="QbitWrapper.h" />
-    <ClInclude Include="Qpc.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

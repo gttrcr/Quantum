@@ -1,4 +1,5 @@
 #include<iostream>
+#include"Utils.h"
 
 template<typename T>
 class Complex
@@ -18,6 +19,8 @@ public:
 
 	};
 	
+	inline bool operator ==(const Complex<T>&);
+	inline bool operator !=(const Complex<T>&);
 	inline Complex<T> operator -() const;
 	inline Complex<T>& operator +=(const Complex<T>&);
 	inline Complex<T>& operator -=(const Complex<T>&);
@@ -33,13 +36,25 @@ public:
 };
 
 template<typename T>
+inline bool Complex<T>::operator==(const Complex<T>& c2)
+{
+	return Utils<T>::RangeEquality(_re, c2._re) && Utils<T>::RangeEquality(_im, c2._im);
+}
+
+template<typename T>
+inline bool Complex<T>::operator!=(const Complex<T>& c2)
+{
+	return !(this->operator==(c2));
+}
+
+template<typename T>
 inline Complex<T> Complex<T>::operator -() const
 {
 	return Complex(-_re, -_im);
 }
 
 template<typename T>
-inline Complex<T>& Complex<T>::operator +=(const Complex<T> & c2)
+inline Complex<T>& Complex<T>::operator +=(const Complex<T>& c2)
 {
 	_re += c2._re;
 	_im += c2._im;
@@ -47,13 +62,13 @@ inline Complex<T>& Complex<T>::operator +=(const Complex<T> & c2)
 }
 
 template<typename T>
-inline Complex<T>& Complex<T>::operator -=(const Complex<T> & c2)
+inline Complex<T>& Complex<T>::operator -=(const Complex<T>& c2)
 {
 	return *this += -c2;
 }
 
 template<typename T>
-inline Complex<T>& Complex<T>::operator *=(const Complex<T> & c2)
+inline Complex<T>& Complex<T>::operator *=(const Complex<T>& c2)
 {
 	T real = _re * c2._re - _im * c2._im;
 	T imag = _re * c2._im + _im * c2._re;
@@ -63,7 +78,7 @@ inline Complex<T>& Complex<T>::operator *=(const Complex<T> & c2)
 }
 
 template<typename T>
-inline Complex<T>& Complex<T>::operator /=(const Complex<T> & c2)
+inline Complex<T>& Complex<T>::operator /=(const Complex<T>& c2)
 {
 	Complex<T> nm = Complex<T>(*this) * Complex<T>(c2._re, -c2._im);
 	T dn = c2._re * c2._re + c2._im * c2._im;
@@ -73,25 +88,25 @@ inline Complex<T>& Complex<T>::operator /=(const Complex<T> & c2)
 }
 
 template<typename T>
-inline Complex<T> Complex<T>::operator +(const Complex<T> & c2) const
+inline Complex<T> Complex<T>::operator +(const Complex<T>& c2) const
 {
 	return Complex<T>(*this) += c2;
 }
 
 template<typename T>
-inline Complex<T> Complex<T>::operator -(const Complex<T> & c2) const
+inline Complex<T> Complex<T>::operator -(const Complex<T>& c2) const
 {
 	return Complex<T>(*this) -= c2;
 }
 
 template<typename T>
-inline Complex<T> Complex<T>::operator *(const Complex<T> & c2) const
+inline Complex<T> Complex<T>::operator *(const Complex<T>& c2) const
 {
 	return Complex<T>(*this) *= c2;
 }
 
 template<typename T>
-inline Complex<T> Complex<T>::operator /(const Complex<T> & c2) const
+inline Complex<T> Complex<T>::operator /(const Complex<T>& c2) const
 {
 	return Complex<T>(*this) /= c2;
 }

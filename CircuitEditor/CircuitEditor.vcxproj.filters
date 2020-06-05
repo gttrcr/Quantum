@@ -38,9 +38,6 @@
     <ClInclude Include="Qbit.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="Qpc.h">
-      <Filter>File di intestazione</Filter>
-    </ClInclude>
     <ClInclude Include="QbitWrapper.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>

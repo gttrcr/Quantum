@@ -1,6 +1,7 @@
 #pragma once
 
 #include<stdarg.h>
+#include "Define.h"
 
 template<typename T>
 class Utils
@@ -19,5 +20,10 @@ public:
         }
         va_end(ap);
         return max;
+    }
+
+    static T RangeEquality(T arg1, T arg2)
+    {
+        return abs(arg1 - arg2) < Sigma;
     }
 };

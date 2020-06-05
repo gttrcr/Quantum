@@ -127,10 +127,13 @@ std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
 void StartLog()
 {
 	std::cout << "CircuitEditor started" << std::endl;
+	std::cout << "Default datatype: " << sizeof(_Type) << std::endl;
 	std::cout << "MAX_BIT_SIZE: " << std::to_string(MAX_BIT_SIZE) << std::endl;
 	std::cout << "THREADS_NUMBER: " << std::to_string(THREADS_NUMBER) << std::endl;
-	std::cout << "USING_THREAD: " << std::to_string(USE_THREADS) << std::endl;
+	std::cout << "USE_THREADS: " << (USE_THREADS ? "true" : "false") << std::endl;
 	std::cout << "CIRCUIT_LOGS: " << (CIRCUIT_LOGS ? "true" : "false") << std::endl;
+	std::cout << "CheckThreadDelay: " << CheckThreadDelay << std::endl;
+	std::cout << "----------" << std::endl;
 }
 
 void EndLog()
@@ -154,7 +157,7 @@ int main()
 
 	//Algorithm - the only editable part
 	{
-		Circuit* c = InitQuantumRegister(3);
+		Circuit* c = InitQuantumRegister(8);
 		CX(c, 0, 1);
 		H(c, 2);
 		X(c, 1);
