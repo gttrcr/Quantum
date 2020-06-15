@@ -100,7 +100,7 @@ private:
         fclose(imageFile);
     }
 
-    //The rotation is 90° clockwise
+    //The rotation is 90° anticlockwise
     void RotateImage()
     {
         for (int i = 0; i < _height / 2; i++)

@@ -172,7 +172,7 @@ int main()
 		//
 		//Optimize(c);
 		
-		Info(c, false, true);
+		Info(c, true, true);
 	}
 
 	EndLog();

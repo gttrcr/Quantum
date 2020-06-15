@@ -2,6 +2,7 @@
 
 #include"Qbit.h"
 #include"Topology.h"
+#include"Frame.h"
 
 struct Circuit
 {
@@ -151,6 +152,9 @@ void Info(Circuit* c, bool print = false, bool draw = false)
 {
 	std::cout << "Determinant is: " << systemMatrix->Det() << std::endl;
 	std::cout << "Trace is: " << systemMatrix->Trace() << std::endl;
+	std::cout << "Rows: " << systemMatrix->GetRows() << std::endl;
+	std::cout << "Cols: " << systemMatrix->GetCols() << std::endl;
+	std::cout << "Size (rows*cols): " << systemMatrix->GetRows() * systemMatrix->GetCols() << std::endl;
 
 	if (print)
 		systemMatrix->Print();

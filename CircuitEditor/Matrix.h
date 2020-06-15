@@ -196,7 +196,7 @@ public:
 		for (unsigned int r = 0; r < _rows; r++)
 		{
 			for (unsigned int c = 0; c < _cols; c++)
-				std::cout << Get(r, c) << " ";
+				std::cout << Get(r, c) << "\t\t";
 			std::cout << std::endl;
 		}
 		std::cout << "----------" << std::endl;
