@@ -4,6 +4,7 @@
 //#include"GnuGraph.h"
 #include<chrono>
 #include <string>
+#include"Frame.h"
 
 //inline void pressEnter(void)
 //{
@@ -157,23 +158,29 @@ int main()
 
 	//Algorithm - the only editable part
 	{
-		Circuit* c = InitQuantumRegister(8);
+		Circuit* c = InitQuantumRegister(3);
 		CX(c, 0, 1);
 		H(c, 2);
-		X(c, 1);
-		Z(c, 1);
-		CX(c, 0, 1);
-		CX(c, 1, 2);
-		CX(c, 0, 2);
-		Swap(c, 1, 2);
-
+		H(c, 1);
+		Y(c, 1);
 		Print(c);
-		Optimize(c);
+		Frame* frame = Frame::CreateFromMatrix<_Complex>(systemMatrix, true);
+		
+		//X(c, 1);
+		//CX(c, 0, 1);
+		//CX(c, 1, 2);
+		//CX(c, 0, 2);
+		//Swap(c, 1, 2);
+		//
+		//Optimize(c);
 	}
 
 	EndLog();
 
 	//Stop
+	std::cout << "Press a key then ENTER to exit..." << std::endl;
 	char a;
 	std::cin >> a;
+
+	return 0;
 }

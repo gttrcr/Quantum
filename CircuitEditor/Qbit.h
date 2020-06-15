@@ -2,6 +2,7 @@
 
 #include<thread>
 #include<mutex>
+#include<sstream>
 
 #include"Complex.h"
 #include"Matrix.h"
@@ -27,10 +28,16 @@ private:
 			std::this_thread::sleep_for(std::chrono::milliseconds(CheckThreadDelay));
 
 			systemMatrixUnitaryCheckMutex.lock();
-			
-			if (systemMatrix->Det() != One)
-				throw new std::exception("Determinant of systemMatrix is not 1");
-			
+
+			_Type modDet = _Complex(systemMatrix->Det()).Mod();
+			if (!Utils<_Type>::RangeEquality(modDet, 1.0))
+			{
+				std::ostringstream strs;
+				strs << modDet;
+				std::string text = "Determinant of systemMatrix is " + strs.str() + " which is not 1";
+				throw new std::exception(text.c_str());
+			}
+
 			systemMatrixUnitaryCheckMutex.unlock();
 		}
 	}
@@ -84,7 +91,10 @@ public:
 	{
 		systemMatrixUnitaryCheckMutex.lock();
 
-		//todo
+		_Matrix* stepMatrix = _Matrix::KroneckerProduct(_positionInRegister);
+		stepMatrix = stepMatrix->KroneckerProduct(&YMatrix);
+		stepMatrix = stepMatrix->KroneckerProduct(_Matrix::KroneckerProduct((qregSize - _positionInRegister - 1)));
+		systemMatrix = systemMatrix->DotProduct(stepMatrix);
 
 		systemMatrixUnitaryCheckMutex.unlock();
 	}

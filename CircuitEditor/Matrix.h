@@ -54,6 +54,16 @@ public:
 		free(_matrix);
 	}
 
+	inline unsigned int GetRows()
+	{
+		return _rows;
+	}
+
+	inline unsigned int GetCols()
+	{
+		return _cols;
+	}
+
 	inline Matrix<T>* operator+(const Matrix<T>& matrix)
 	{
 		Matrix<T>* res = new Matrix<T>(_rows, _cols);
@@ -71,7 +81,7 @@ public:
 
 		for (unsigned int r = 0; r < _rows; r++)
 			for (unsigned int c = 0; c < _cols; c++)
-				res->_set(r, c, _get(r, c) * scalar);
+				res->_set(r, c, Get(r, c) * scalar);
 
 		return res;
 	}
@@ -112,7 +122,7 @@ public:
 			unsigned int col = op / res._rows;
 			res._set(row, col, 0);
 			for (unsigned int r = 0; r < res._rows; ++r)
-				res._set(row, col, res._get(row, col) + _this._get(row, r) * matrix._get(r, col));
+				res._set(row, col, res.Get(row, col) + _this.Get(row, r) * matrix.Get(r, col));
 		}
 	}
 
@@ -136,9 +146,10 @@ public:
 		for (unsigned int i = 0; i < _rows; i++)
 			for (unsigned int j = 0; j < _cols; j++)
 			{
-				res->_matrix[i][j] = 0;
+				res->_set(i, j, {}); //res->_matrix[i][j] = 0;
 				for (unsigned int k = 0; k < _rows; k++)
-					res->_matrix[i][j] += _matrix[i][k] * matrix->_matrix[k][j];
+					//res->_matrix[i][j] += _matrix[i][k] * matrix->_matrix[k][j];
+					res->_set(i, j, res->Get(i, j) + Get(i, k) * matrix->Get(k, j));
 			}
 
 		return res;
@@ -151,7 +162,7 @@ public:
 		for (unsigned int r = 0; r < _this._rows; r++)
 			for (unsigned int c = 0; c < _this._cols; c++)
 				if ((r * res._cols + c) % THREADS_NUMBER == threadNumber)
-					res._insertMatrix(r * matrix._rows, c * matrix._cols, matrix.operator*(_this._get(r, c)));
+					res._insertMatrix(r * matrix._rows, c * matrix._cols, matrix.operator*(_this.Get(r, c)));
 	}
 
 	//Matrix Kronecker product
@@ -173,7 +184,7 @@ public:
 
 		for (unsigned int r = 0; r < _rows; r++)
 			for (unsigned int c = 0; c < _cols; c++)
-				res->_insertMatrix(r * matrix->_rows, c * matrix->_cols, matrix->operator*(_matrix[r][c]));
+				res->_insertMatrix(r * matrix->_rows, c * matrix->_cols, matrix->operator*(Get(r, c))); // _matrix[r][c]));
 
 		return res;
 #endif
@@ -185,7 +196,7 @@ public:
 		for (unsigned int r = 0; r < _rows; r++)
 		{
 			for (unsigned int c = 0; c < _cols; c++)
-				std::cout << _get(r, c) << " ";
+				std::cout << Get(r, c) << " ";
 			std::cout << std::endl;
 		}
 		std::cout << "----------" << std::endl;
@@ -200,9 +211,75 @@ public:
 	{
 		T trace = {};
 		for (unsigned int r = 0; r < _rows; r++)
-			trace += _get(r, r);
+			trace += Get(r, r);
 
 		return trace;
+	}
+
+	inline T* M()
+	{
+		return _matrix;
+	}
+
+	inline T Max(unsigned int& rPos, unsigned int& cPos)
+	{
+		T max = Zero;
+		for (unsigned int r = 0; r < _rows; r++)
+			for (unsigned int c = 0; c < _cols; c++)
+				if (Get(r, c) > max)
+				{
+					rPos = r;
+					cPos = c;
+					max = Get(r, c);
+				}
+
+		return max;
+	}
+
+	inline T Get(unsigned int r, unsigned int c)
+	{
+		return _matrix[r * _rows + c];
+	}
+
+	inline T Det(Matrix<T>* matrix)
+	{
+		T det = {};
+		unsigned int n = matrix->_rows;
+
+		if (n == 2)
+			return matrix->Get(0, 0) * matrix->Get(1, 1) - matrix->Get(1, 0) * matrix->Get(0, 1);
+		else
+		{
+			Matrix<T>* submatrix = new Matrix<T>(matrix->_rows - 1, matrix->_cols - 1);
+			for (unsigned int x = 0; x < n; x++)
+			{
+				if (matrix->Get(0, x) != Zero)
+				{
+					unsigned int subi = 0;
+					for (unsigned int i = 1; i < n; i++)
+					{
+						unsigned int subj = 0;
+						for (unsigned int j = 0; j < n; j++)
+						{
+							if (j == x)
+								continue;
+							submatrix->_set(subi, subj, matrix->Get(i, j));
+							subj++;
+						}
+						subi++;
+					}
+
+					if (pow(-1, x) == -1)
+						det -= (matrix->Get(0, x) * Det(submatrix));
+					else
+						det += (matrix->Get(0, x) * Det(submatrix));
+				}
+			}
+
+			submatrix->~Matrix();
+		}
+
+		return det;
 	}
 
 private:
@@ -216,60 +293,12 @@ private:
 		unsigned int maxC = matrix->_cols;
 		for (unsigned int r = 0; r < maxR; r++)
 			for (unsigned int c = 0; c < maxC; c++)
-				_set(rPos + r, cPos + c, matrix->_get(r, c));
+				_set(rPos + r, cPos + c, matrix->Get(r, c));
 	}
 
 	inline void _set(unsigned int r, unsigned int c, T el)
 	{
 		_matrix[r * _rows + c] = el;
-	}
-
-	inline T _get(unsigned int r, unsigned int c)
-	{
-		return _matrix[r * _rows + c];
-	}
-
-	inline T Det(Matrix<T>* matrix)
-	{
-		T det = {};
-		unsigned int n = matrix->_rows;
-
-		if (n == 2)
-			return matrix->_get(0, 0) * matrix->_get(1, 1) - matrix->_get(1, 0) * matrix->_get(0, 1);
-		else
-		{
-			Matrix<T>* submatrix = new Matrix<T>(matrix->_rows - 1, matrix->_cols - 1);
-			for (unsigned int x = 0; x < n; x++)
-			{
-				if (-matrix->_get(0, x) != Zero)
-				{
-					unsigned int subi = 0;
-					for (unsigned int i = 1; i < n; i++)
-					{
-						unsigned int subj = 0;
-						for (unsigned int j = 0; j < n; j++)
-						{
-							if (j == x)
-								continue;
-							submatrix->_set(subi, subj, matrix->_get(i, j));
-							subj++;
-						}
-						subi++;
-					}
-
-					//if (-matrix->_get(0, x) != Zero)
-					//{
-					if (pow(-1, x) == -1)
-						det -= (matrix->_get(0, x) * Det(submatrix));
-					else
-						det += (matrix->_get(0, x) * Det(submatrix));
-				}
-			}
-
-			submatrix->~Matrix();
-		}
-
-		return det;
 	}
 };
 

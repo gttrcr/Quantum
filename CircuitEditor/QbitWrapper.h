@@ -16,7 +16,7 @@ public:
 	}
 };
 
-void Matrix(Circuit* c)
+void M(Circuit* c)
 {
 	systemMatrix->Print();
 }

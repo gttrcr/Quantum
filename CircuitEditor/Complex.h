@@ -21,6 +21,8 @@ public:
 	
 	inline bool operator ==(const Complex<T>&);
 	inline bool operator !=(const Complex<T>&);
+	inline bool operator >(const Complex<T>&);
+	inline bool operator <(const Complex<T>&);
 	inline Complex<T> operator -() const;
 	inline Complex<T>& operator +=(const Complex<T>&);
 	inline Complex<T>& operator -=(const Complex<T>&);
@@ -30,6 +32,11 @@ public:
 	inline Complex<T> operator -(const Complex<T>&) const;
 	inline Complex<T> operator *(const Complex<T>&) const;
 	inline Complex<T> operator /(const Complex<T>&) const;
+
+	inline T Mod()
+	{
+		return pow(_re, 2) + pow(_im, 2);
+	}
 	
 	template<typename U>
 	friend std::ostream& operator <<(std::ostream&, const Complex<U>&);
@@ -45,6 +52,20 @@ template<typename T>
 inline bool Complex<T>::operator!=(const Complex<T>& c2)
 {
 	return !(this->operator==(c2));
+}
+
+//Complex number does not have >. I use thie definition to create a sorting
+template<typename T>
+inline bool Complex<T>::operator>(const Complex<T>& c2)
+{
+	return pow(_re, 2) + pow(_im, 2) > pow(c2._re, 2) + pow(c2._im, 2);
+}
+
+//Complex number does not have <. I use this definition to create a sorting
+template<typename T>
+inline bool Complex<T>::operator<(const Complex<T>& c2)
+{
+	return pow(_re, 2) + pow(_im, 2) < pow(c2._re, 2) + pow(c2._im, 2);
 }
 
 template<typename T>

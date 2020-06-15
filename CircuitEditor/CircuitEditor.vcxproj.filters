@@ -47,5 +47,8 @@
     <ClInclude Include="Utils.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="Frame.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
