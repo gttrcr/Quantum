@@ -16,11 +16,6 @@ public:
 	}
 };
 
-void M(Circuit* c)
-{
-	systemMatrix->Print();
-}
-
 void I(Circuit* c, unsigned int a)
 {
 	if (CIRCUIT_LOGS)
@@ -152,9 +147,14 @@ void Optimize(Circuit* c)
 		std::cout << "Done" << std::endl;
 }
 
-void Print(Circuit* c)
+void Info(Circuit* c, bool print = false, bool draw = false)
 {
-	//systemMatrix->Print();
 	std::cout << "Determinant is: " << systemMatrix->Det() << std::endl;
 	std::cout << "Trace is: " << systemMatrix->Trace() << std::endl;
+
+	if (print)
+		systemMatrix->Print();
+
+	if (draw)
+		Frame::CreateFromMatrix<_Complex>(systemMatrix, "frame.bmp", true);
 }

@@ -163,8 +163,6 @@ int main()
 		H(c, 2);
 		H(c, 1);
 		Y(c, 1);
-		Print(c);
-		Frame* frame = Frame::CreateFromMatrix<_Complex>(systemMatrix, "frame.bmp" ,true);
 		
 		//X(c, 1);
 		//CX(c, 0, 1);
@@ -173,6 +171,8 @@ int main()
 		//Swap(c, 1, 2);
 		//
 		//Optimize(c);
+		
+		Info(c, false, true);
 	}
 
 	EndLog();
