@@ -164,7 +164,7 @@ int main()
 		H(c, 1);
 		Y(c, 1);
 		Print(c);
-		Frame* frame = Frame::CreateFromMatrix<_Complex>(systemMatrix, true);
+		Frame* frame = Frame::CreateFromMatrix<_Complex>(systemMatrix, "frame.bmp" ,true);
 		
 		//X(c, 1);
 		//CX(c, 0, 1);

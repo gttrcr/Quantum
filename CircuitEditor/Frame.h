@@ -42,12 +42,11 @@ public:
     }
 
     template<typename T>
-    static Frame* CreateFromMatrix(Matrix<_Complex>* matrix, bool open = false)
+    static Frame* CreateFromMatrix(Matrix<_Complex>* matrix, std::string name = "frame.bmp", bool open = false)
     {
         unsigned int rPos = 0;
         unsigned int cPos = 0;
         _Complex max = matrix->Max(rPos, cPos);
-        std::string name = "frame.bmp";
         Frame* frame = new Frame(MAXH, MAXW, name);
         unsigned int uH = (unsigned int)(MAXH / matrix->GetRows());
         unsigned int uW = (unsigned int)(MAXW / matrix->GetCols());
