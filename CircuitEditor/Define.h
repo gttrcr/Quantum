@@ -5,8 +5,8 @@
 #define MAX_BIT_SIZE 256
 #define THREADS_NUMBER 32
 #define USE_THREADS false
-#define CIRCUIT_LOGS true
-#define CheckThreadDelay 1000
+#define CIRCUIT_LOGS false
+#define MonitoringThreadDelay 1000
 
 //Program define
 #define _Complex Complex<_Type>

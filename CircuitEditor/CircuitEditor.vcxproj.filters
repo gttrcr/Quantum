@@ -50,5 +50,11 @@
     <ClInclude Include="Frame.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="CircuitDraw.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="QAlgh.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

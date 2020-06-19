@@ -56,7 +56,7 @@ public:
             {
                 unsigned int r = (unsigned int)(i / uH);
                 unsigned int c = (unsigned int)(j / uW);
-                unsigned char bw = 255.0 * matrix->Get(r, c).Mod() / max.Mod();
+                unsigned char bw = (unsigned char)(255.0 * matrix->Get(r, c).Mod() / max.Mod());
                 frame->bw(i, j, bw);
             }
         }
@@ -103,9 +103,9 @@ private:
     //The rotation is 90° anticlockwise
     void RotateImage()
     {
-        for (int i = 0; i < _height / 2; i++)
+        for (unsigned int i = 0; i < _height / 2; i++)
         {
-            for (int j = i; j < _width - i - 1; j++)
+            for (unsigned int j = i; j < _width - i - 1; j++)
             {
                 unsigned char r = _image[i][j][2];
                 unsigned char g = _image[i][j][1];

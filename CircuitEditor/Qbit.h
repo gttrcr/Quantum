@@ -18,29 +18,6 @@ private:
 	_Complex* _alpha;
 	_Complex* _beta;
 	unsigned int _positionInRegister;
-	std::thread* _checkThread;
-	bool _runThread;
-
-	void checkThread()
-	{
-		while (_runThread)
-		{
-			std::this_thread::sleep_for(std::chrono::milliseconds(CheckThreadDelay));
-
-			systemMatrixUnitaryCheckMutex.lock();
-
-			_Type modDet = _Complex(systemMatrix->Det()).Mod();
-			if (!Utils<_Type>::RangeEquality(modDet, 1.0))
-			{
-				std::ostringstream strs;
-				strs << modDet;
-				std::string text = "Determinant of systemMatrix is " + strs.str() + " which is not 1";
-				throw new std::exception(text.c_str());
-			}
-
-			systemMatrixUnitaryCheckMutex.unlock();
-		}
-	}
 
 public:
 	Qbit()
@@ -49,7 +26,6 @@ public:
 		{
 			systemMatrix = new IMatrix;
 			qregSize = 1;
-			_checkThread = new std::thread(&Qbit::checkThread, this);
 		}
 		else
 		{
@@ -60,13 +36,12 @@ public:
 		_alpha = new _Complex(1, 0);
 		_beta = new _Complex(0, 0);
 		_positionInRegister = qregSize - 1;
-		_runThread = true;
 	}
 
 	void I()
 	{
 		systemMatrixUnitaryCheckMutex.lock();
-		
+
 		_Matrix* stepMatrix = _Matrix::KroneckerProduct(_positionInRegister);
 		stepMatrix = stepMatrix->KroneckerProduct(&IMatrix);
 		stepMatrix = stepMatrix->KroneckerProduct(_Matrix::KroneckerProduct((qregSize - _positionInRegister - 1)));
@@ -78,7 +53,7 @@ public:
 	void X()
 	{
 		systemMatrixUnitaryCheckMutex.lock();
-		
+
 		_Matrix* stepMatrix = _Matrix::KroneckerProduct(_positionInRegister);
 		stepMatrix = stepMatrix->KroneckerProduct(&XMatrix);
 		stepMatrix = stepMatrix->KroneckerProduct(_Matrix::KroneckerProduct((qregSize - _positionInRegister - 1)));
@@ -102,19 +77,19 @@ public:
 	void Z()
 	{
 		systemMatrixUnitaryCheckMutex.lock();
-		
+
 		_Matrix* stepMatrix = _Matrix::KroneckerProduct(_positionInRegister);
 		stepMatrix = stepMatrix->KroneckerProduct(&ZMatrix);
 		stepMatrix = stepMatrix->KroneckerProduct(_Matrix::KroneckerProduct((qregSize - _positionInRegister - 1)));
 		systemMatrix = systemMatrix->DotProduct(stepMatrix);
-		
+
 		systemMatrixUnitaryCheckMutex.unlock();
 	}
 
 	void H()
 	{
 		systemMatrixUnitaryCheckMutex.lock();
-		
+
 		_Matrix* stepMatrix = _Matrix::KroneckerProduct(_positionInRegister);
 		stepMatrix = stepMatrix->KroneckerProduct(&HMatrix);
 		stepMatrix = stepMatrix->KroneckerProduct(_Matrix::KroneckerProduct((qregSize - _positionInRegister - 1)));
@@ -127,7 +102,7 @@ public:
 	{
 		systemMatrixUnitaryCheckMutex.lock();
 
-		//todo
+		throw std::exception("Not implemented");
 
 		systemMatrixUnitaryCheckMutex.unlock();
 	}
@@ -135,7 +110,7 @@ public:
 	void CX(Qbit q)
 	{
 		systemMatrixUnitaryCheckMutex.lock();
-		
+
 		_Matrix* stepMatrix = CalculateCXMatrix<_Complex>(qregSize, q._positionInRegister, _positionInRegister);
 		systemMatrix = systemMatrix->DotProduct(stepMatrix);
 
@@ -146,7 +121,7 @@ public:
 	{
 		systemMatrixUnitaryCheckMutex.lock();
 
-		//
+		throw std::exception("Not implemented");
 
 		systemMatrixUnitaryCheckMutex.unlock();
 	}
@@ -155,7 +130,16 @@ public:
 	{
 		systemMatrixUnitaryCheckMutex.lock();
 
-		//
+		throw std::exception("Not implemented");
+
+		systemMatrixUnitaryCheckMutex.unlock();
+	}
+
+	void Toffoli(Qbit q1, Qbit q2)
+	{
+		systemMatrixUnitaryCheckMutex.lock();
+
+		throw std::exception("Not implemented");
 
 		systemMatrixUnitaryCheckMutex.unlock();
 	}
@@ -171,7 +155,7 @@ public:
 	{
 		systemMatrixUnitaryCheckMutex.lock();
 
-		//
+		throw std::exception("Not implemented");
 
 		systemMatrixUnitaryCheckMutex.unlock();
 	}

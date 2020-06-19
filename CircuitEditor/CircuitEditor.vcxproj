@@ -150,7 +150,9 @@
     <ClCompile Include="CircuitEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CircuitDraw.h" />
     <ClInclude Include="Frame.h" />
+    <ClInclude Include="QAlgh.h" />
     <ClInclude Include="Topology.h" />
     <ClInclude Include="Complex.h" />
     <ClInclude Include="Define.h" />

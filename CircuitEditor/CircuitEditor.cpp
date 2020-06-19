@@ -1,10 +1,8 @@
 #pragma warning(disable:4996)
 
 #include"QbitWrapper.h"
+#include"QAlgh.h"
 //#include"GnuGraph.h"
-#include<chrono>
-#include <string>
-#include"Frame.h"
 
 //inline void pressEnter(void)
 //{
@@ -124,60 +122,58 @@
 //	return 0;
 //}
 
-std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
-void StartLog()
+//Algorithm - the only editable part
+void Algoritm()
 {
-	std::cout << "CircuitEditor started" << std::endl;
-	std::cout << "Default datatype: " << sizeof(_Type) << std::endl;
-	std::cout << "MAX_BIT_SIZE: " << std::to_string(MAX_BIT_SIZE) << std::endl;
-	std::cout << "THREADS_NUMBER: " << std::to_string(THREADS_NUMBER) << std::endl;
-	std::cout << "USE_THREADS: " << (USE_THREADS ? "true" : "false") << std::endl;
-	std::cout << "CIRCUIT_LOGS: " << (CIRCUIT_LOGS ? "true" : "false") << std::endl;
-	std::cout << "CheckThreadDelay: " << CheckThreadDelay << std::endl;
-	std::cout << "----------" << std::endl;
+	Circuit* c = InitQuantumRegister(7);
+
+	QAlgh::Reverse(c);
+	//Toffoli(c, 1, 2, 3);
+	for (unsigned int i = 0; i < 10; i++)
+	{
+		H(c, 2);
+		CX(c, 0, 1);
+		H(c, 1);
+		Y(c, 1);
+		H(c, 3);
+		X(c, 1);
+		CX(c, 0, 1);
+		CX(c, 1, 2);
+		CX(c, 0, 2);
+		Swap(c, 1, 2);
+	}
+
+	//Info(c);
 }
 
-void EndLog()
+void MonitoringThread()
 {
-	long long mills = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start).count();
-	std::cout << "The circuit has been created in " << mills << "ms" << std::endl;
-}
+	while (true)
+	{
+		std::this_thread::sleep_for(std::chrono::milliseconds(MonitoringThreadDelay));
 
-Circuit* InitQuantumRegister(unsigned int reg)
-{
-	std::cout << "Creating circuit of " << reg << " quantum registers...";
-	Circuit* c = new Circuit(reg);
-	std::cout << "Done" << std::endl;
-
-	return c;
+		Utils::VirtualMemoryUsedByProcess();
+	}
 }
 
 int main()
 {
 	StartLog();
+	Utils::SetConsoleBuffer();
+	Utils::ConsoleTitle("CircuitEditor v0.1");
+	std::thread monitoringThread(MonitoringThread);
 
-	//Algorithm - the only editable part
+	try
 	{
-		Circuit* c = InitQuantumRegister(3);
-		CX(c, 0, 1);
-		H(c, 2);
-		H(c, 1);
-		Y(c, 1);
-		
-		//X(c, 1);
-		//CX(c, 0, 1);
-		//CX(c, 1, 2);
-		//CX(c, 0, 2);
-		//Swap(c, 1, 2);
-		//
-		//Optimize(c);
-		
-		Info(c, true, true);
+		Algoritm();
+	}
+	catch (std::exception& ex)
+	{
+		std::cout << ex.what() << std::endl;
 	}
 
 	EndLog();
 
-	//Stop
 	std::cout << "Press a key then ENTER to exit..." << std::endl;
 	char a;
 	std::cin >> a;

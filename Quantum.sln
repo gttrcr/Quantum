@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CircuitEditor", "CircuitEditor\CircuitEditor.vcxproj", "{A3B1B807-47D7-4094-93C2-66B0B23B3BFF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bitmap", "Bitmap\Bitmap.vcxproj", "{447A7A9D-0AEC-449C-9447-4879494F0478}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{A3B1B807-47D7-4094-93C2-66B0B23B3BFF}.Release|x64.Build.0 = Release|x64
 		{A3B1B807-47D7-4094-93C2-66B0B23B3BFF}.Release|x86.ActiveCfg = Release|Win32
 		{A3B1B807-47D7-4094-93C2-66B0B23B3BFF}.Release|x86.Build.0 = Release|Win32
+		{447A7A9D-0AEC-449C-9447-4879494F0478}.Debug|x64.ActiveCfg = Debug|x64
+		{447A7A9D-0AEC-449C-9447-4879494F0478}.Debug|x64.Build.0 = Debug|x64
+		{447A7A9D-0AEC-449C-9447-4879494F0478}.Debug|x86.ActiveCfg = Debug|Win32
+		{447A7A9D-0AEC-449C-9447-4879494F0478}.Debug|x86.Build.0 = Debug|Win32
+		{447A7A9D-0AEC-449C-9447-4879494F0478}.Release|x64.ActiveCfg = Release|x64
+		{447A7A9D-0AEC-449C-9447-4879494F0478}.Release|x64.Build.0 = Release|x64
+		{447A7A9D-0AEC-449C-9447-4879494F0478}.Release|x86.ActiveCfg = Release|Win32
+		{447A7A9D-0AEC-449C-9447-4879494F0478}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -45,7 +45,7 @@ public:
 template<typename T>
 inline bool Complex<T>::operator==(const Complex<T>& c2)
 {
-	return Utils<T>::RangeEquality(_re, c2._re) && Utils<T>::RangeEquality(_im, c2._im);
+	return Utils::RangeEquality<T>(_re, c2._re) && Utils::RangeEquality<T>(_im, c2._im);
 }
 
 template<typename T>

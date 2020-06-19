@@ -49,7 +49,7 @@ public:
 		for (unsigned int nStep = 0; nStep < _circuit->size(); nStep++)
 		{
 			Step step = (*_circuit)[nStep];
-			realNumberOfReg = Utils<unsigned int>::Max(7, step._a, step._b, step._c, step._d, step._e, step._f, realNumberOfReg);
+			realNumberOfReg = Utils::Max<unsigned int>(7, step._a, step._b, step._c, step._d, step._e, step._f, realNumberOfReg);
 		}
 
 		//Add optimizer
